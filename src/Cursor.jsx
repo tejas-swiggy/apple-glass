@@ -54,7 +54,7 @@ export default function Cursor({ isHovering }) {
       <sphereGeometry args={[0.08, 32, 32]} />
       <MeshTransmissionMaterial
         thickness={0.1}
-        roughness={0.03}
+        roughness={0}
         transmission={1}
         ior={1.3}
         chromaticAberration={0.01}
