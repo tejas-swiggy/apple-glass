@@ -3,7 +3,7 @@ import { MeshTransmissionMaterial } from "@react-three/drei";
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 
-export default function Cursor({ hoverRef }) {
+export default function Cursor() {
   const meshRef = useRef();
   const { viewport } = useThree();
   const [target, setTarget] = useState({ x: 0, y: 0 });
