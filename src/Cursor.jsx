@@ -3,15 +3,15 @@ import { MeshTransmissionMaterial } from "@react-three/drei";
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 
-export default function Cursor() {
+export default function Cursor({ isHovering }) {
   const meshRef = useRef();
   const { viewport } = useThree();
   const [target, setTarget] = useState({ x: 0, y: 0 });
+  const scaleRef = useRef(1);
 
   useFrame(() => {
     if (!meshRef.current) return;
 
-    // Cursor follow animation
     gsap.to(meshRef.current.position, {
       x: target.x,
       y: target.y,
@@ -19,10 +19,10 @@ export default function Cursor() {
       ease: "power2.out",
     });
 
+    meshRef.current.scale.setScalar(scaleRef.current);
   });
 
   useEffect(() => {
-    // Convert pixel coordinates to three coordinate system
     const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
       const y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -33,17 +33,27 @@ export default function Cursor() {
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-  }, [hoverRef, viewport]);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [viewport]);
+
+  useEffect(() => {
+    // Animate scale change on hover toggle
+    gsap.to(scaleRef, {
+      current: isHovering ? 2.5 : 1,
+      duration: 0.13,
+      ease: "cubic-bezier(.8,-0.84,.16,1.68)",
+    });
+  }, [isHovering]);
 
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[0.12, 32, 32]} />
+      <sphereGeometry args={[0.08, 32, 32]} />
       <MeshTransmissionMaterial
-        thickness={0.13}
-        roughness={0.01}
+        thickness={0.1}
+        roughness={0.03}
         transmission={1}
         ior={1.3}
-        chromaticAberration={0.03}
+        chromaticAberration={0.01}
         anisotropy={0.1}
         distortion={0.2}
         distortionScale={0.2}
