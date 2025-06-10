@@ -2,7 +2,7 @@
 import { Text } from "@react-three/drei";
 import Inter from "./assets/Inter.ttf";
 
-export default function TextDistort({ onHoverChange }) {
+export default function TextDistort() {
 
     return (
         <Text
@@ -14,10 +14,8 @@ export default function TextDistort({ onHoverChange }) {
             anchorX="center"
             anchorY="middle"
             sdfGlyphSize={512} // Higher for better detail, lower for performanceß
-            onPointerOver={() => onHoverChange(true)}
-            onPointerOut={() => onHoverChange(false)}
         >
-            Hover Me
+            Liquid Glass
         </Text>
     );
 }

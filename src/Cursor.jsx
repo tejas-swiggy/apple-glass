@@ -32,20 +32,6 @@ export default function Cursor({ hoverRef }) {
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-
-    // Attach hover listeners if ref is provided
-    if (hoverRef?.current) {
-      hoverRef.current.addEventListener("mouseenter", handleMouseEnter);
-      hoverRef.current.addEventListener("mouseleave", handleMouseLeave);
-    }
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      if (hoverRef?.current) {
-        hoverRef.current.removeEventListener("mouseenter", handleMouseEnter);
-        hoverRef.current.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
   }, [hoverRef, viewport]);
 
   return (
@@ -55,7 +41,7 @@ export default function Cursor({ hoverRef }) {
         thickness={0.13}
         roughness={0.01}
         transmission={1}
-        ior={1.2}
+        ior={1.3}
         chromaticAberration={0.03}
         anisotropy={0.1}
         distortion={0.2}
