@@ -11,7 +11,7 @@ export default function Cursor() {
   useFrame(() => {
     if (!meshRef.current) return;
 
-    // Smooth follow animation
+    // Cursor follow animation
     gsap.to(meshRef.current.position, {
       x: target.x,
       y: target.y,
@@ -22,6 +22,7 @@ export default function Cursor() {
   });
 
   useEffect(() => {
+    // Convert pixel coordinates to three coordinate system
     const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
       const y = -(e.clientY / window.innerHeight) * 2 + 1;
