@@ -1,3 +1,32 @@
+Below is my code. Make necessary changes so that:
+
+1. The cursor scales up (scaling by 1.5) when hovering over the text
+2. The text has a magnetic effect; details below.
+    + The text follows the cursor, but with intense damping.
+    + The text moves 5% of the distance the cursor moves.
+    + This effect is only triggered once the cursor is within 50px of the text.
+    + Once the cursor exits, the text returns to its original position.
+
+--- App.jsx
+
+import { Canvas } from "@react-three/fiber";
+import Cursor from "./Cursor";
+import TextDistort from "./TextDistort";
+import { Environment } from "@react-three/drei";
+
+export default function App() {
+    return (
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+            <ambientLight intensity={1} />
+            <Environment preset="city" />
+            <Cursor/>
+            <TextDistort/>
+        </Canvas>
+    );
+}
+
+--- Cursor.jsx
+
 import { useThree, useFrame } from "@react-three/fiber";
 import { MeshTransmissionMaterial } from "@react-three/drei";
 import { useRef, useState, useEffect } from "react";
@@ -65,3 +94,30 @@ export default function Cursor({ hoverRef }) {
     </mesh>
   );
 }
+
+--- TextDistort.jsx
+
+// src/TextDistort.jsx
+import { Text } from "@react-three/drei";
+import Inter from "./assets/Inter.ttf";
+
+export default function TextDistort({ onHoverChange }) {
+
+    return (
+        <Text
+            position={[0, 0, 0]}
+            font={Inter}
+            fontSize={0.5}
+            letterSpacing={-0.07} // -2% spacing
+            color="#ffffff"
+            anchorX="center"
+            anchorY="middle"
+            sdfGlyphSize={512} // Higher for better detail, lower for performanceß
+            onPointerOver={() => onHoverChange(true)}
+            onPointerOut={() => onHoverChange(false)}
+        >
+            Hover Me
+        </Text>
+    );
+}
+
